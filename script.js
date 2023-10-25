@@ -1,8 +1,9 @@
 // dependencies
 require('dotenv').config();
-const { OpenAI } = require('langchain/llms/openai');
 const inquirer = require('inquirer');
+const { OpenAI } = require('langchain/llms/openai');
 const { PromptTemplate } = require("langchain/prompts");
+const { StructuredOutputParser } = require("langchain/output_parsers");
 
 // instantiates a wrapper OpenAI with basic config
 const model = new OpenAI({ 
@@ -16,18 +17,34 @@ const model = new OpenAI({
 // passes in prompts to OpenAI via user inputs from Inquirer
 const promptFunc = async (input) => {
   try {
+    // structures the OpenAI response for uniformity of responses
+    const parser = StructuredOutputParser.fromNamesAndDescriptions({
+      code: "JavaScript code that answers the user's question",
+      explanation: "detailed explanation of the example code provided",
+    });
+
+    // passes parser instructions to prompt template
+    const formatInstructions = parser.getFormatInstructions();
+
     // creates OpenAI prompt template
     const prompt = new PromptTemplate({
       template: "You are a JavaScript expert and will answer the user's coding questions as thorougly as possible.\n{question}",
       inputVariables: ["question"],
+      partialVariables: {
+        format_instructions: formatInstructions
+      }
     });
+
     // passes inuser input to prompt template
     const promptInput = await prompt.format({
       question: input,
     });
+
     // sends request to OpenAI with user input formatted into a template
     const res = await model.call(promptInput);
-    console.log(res);
+
+    // call .parse() to pass in the response
+    console.log(await parser.parse(res));
   } catch (err) {
     console.error(err);
   }
