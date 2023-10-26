@@ -17,6 +17,7 @@ function App() {
   return (
     <>
       <main>
+        <h1>Welcome to your JavaScript Tutor!</h1>
         <section className='ask'>
           <form>
             <div>
@@ -26,7 +27,9 @@ function App() {
             <button
               type='submit'
               id='js-question-btn'
-              onClick={() => userInput(event)}>Ask!
+              onClick={() => userInput(event)}
+              style={{ margin: '20px' }}>
+                Ask!
             </button>
           </form>
         </section>
