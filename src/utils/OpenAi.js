@@ -1,16 +1,18 @@
 // dependencies
-require('dotenv').config();
-const inquirer = require('inquirer');
-const { OpenAI } = require('langchain/llms/openai');
-const { PromptTemplate } = require("langchain/prompts");
-const { StructuredOutputParser } = require("langchain/output_parsers");
+// import 'dotenv/config';
+// import inquirer from 'inquirer';
+import { OpenAI } from 'langchain/llms/openai';
+import { PromptTemplate } from "langchain/prompts";
+import { StructuredOutputParser } from "langchain/output_parsers";
 
 // instantiates a wrapper OpenAI with basic config
 const model = new OpenAI({ 
-  openAIApiKey: process.env.OPENAI_API_KEY, 
+  openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY, 
   temperature: 0,
   model: 'gpt-3.5-turbo'
 });
+
+// console.log(import.meta.VITE_OPENAI_API_KEY)
 
 // console.log({ model });
 
@@ -50,20 +52,22 @@ const promptFunc = async (input) => {
   }
 };
 
-// initializes Inquirer, returns a promise to be passed to OpenAI as a prompt
-const init = () => {
-  inquirer.prompt([
-    {
-      type: 'input',
-      name: 'name',
-      message: 'Ask a JavaScript coding question:',
-      // validation
-    },
-  ])
-  .then((inquirerResponse) => {
-    promptFunc(inquirerResponse.name)
-  });
-};
+// // initializes Inquirer, returns a promise to be passed to OpenAI as a prompt
+// const init = () => {
+//   inquirer.prompt([
+//     {
+//       type: 'input',
+//       name: 'name',
+//       message: 'Ask a JavaScript coding question:',
+//       // validation
+//     },
+//   ])
+//   .then((inquirerResponse) => {
+//     promptFunc(inquirerResponse.name);
+//   });
+// };
 
-// starts the script
-init();
+// // starts the script
+// init();
+
+export { promptFunc };
