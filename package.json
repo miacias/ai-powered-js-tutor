@@ -14,14 +14,14 @@
     "url": "git+https://github.com/miacias/ai-powered-js-tutor.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mia Ciasullo",
   "license": "ISC",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "dotenv": "^16.3.1",
     "inquirer": "^9.2.11",
-    "langchain": "^0.0.172"
+    "langchain": "^0.0.173"
   },
   "devDependencies": {
     "@types/react": "^18.2.32",
