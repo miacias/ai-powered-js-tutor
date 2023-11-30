@@ -11,9 +11,6 @@ const model = new OpenAI({
   model: 'gpt-3.5-turbo'
 });
 
-// console.log(import.meta.VITE_OPENAI_API_KEY)
-// console.log({ model });
-
 // passes in prompts to OpenAI via user inputs from Inquirer
 const promptFunc = async (input) => {
   try {
@@ -28,7 +25,7 @@ const promptFunc = async (input) => {
 
     // creates OpenAI prompt template
     const prompt = new PromptTemplate({
-      template: "You are a JavaScript expert and will answer the user's coding questions as thorougly as possible.\n{question}",
+      template: "You are a JavaScript expert. Respond to the user's coding questions as thorougly as possible in the form of one JSON object. The first key-value pair will be sample code you provide with a key called code and a string value, and the second will be an explanation of the code with a key called explanation and a string value. Use line breaks where appropriate. You must format your output as a JSON value that adheres to a given \"JSON Schema\" instance. Properly use escape characters parsewith a backslash in the response where appropriate to maintain a proper string.\n{question}",
       inputVariables: ["question"],
       partialVariables: {
         format_instructions: formatInstructions
@@ -42,11 +39,11 @@ const promptFunc = async (input) => {
 
     // sends request to OpenAI with user input formatted into a template
     const res = await model.call(promptInput);
-    return parser.parse(res);
     // call .parse() to pass in the response
-    // console.log(await parser.parse(res));
+    return parser.parse(res);
   } catch (err) {
-    console.error(err);
+    console.error('Error parsing OpenAI response:', err);
+    console.log('OpenAI error:', err);
   }
 };
 

@@ -2,12 +2,13 @@ import { useState } from 'react'
 import './App.css'
 import { promptFunc } from './utils/OpenAi.js'
 
+// test comment
 function App() {
   const [aiResponse, setApiResponse] = useState({});
 
   const userInput = async (event) => {
     event.preventDefault();
-    const input = document.querySelector('#js-question-input').value;
+    const input = document.querySelector('#js-question-input').value.trim();
     console.log(input);
     const newData = await promptFunc(input);
     setApiResponse(newData);
