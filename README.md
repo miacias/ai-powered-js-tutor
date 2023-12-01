@@ -19,12 +19,10 @@ This app is a JavaScript Consultant application where users could ask any questi
 
 ## Installation
 
-N/A
+N/A. [Deployed site here!](https://ai-powered-js-tutor.vercel.app/)
 
 
 ## Usage
-
-[Deployed site here!](https://ai-powered-js-tutor.vercel.app/)
 
 First, navigate to the site, then enter your question into the input box. Finally, hit "Ask!"
 
