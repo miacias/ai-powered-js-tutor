@@ -1,24 +1,33 @@
 import { useState } from 'react'
+import 'animate.css';
 import './App.css'
-import { promptFunc } from './utils/OpenAi.js'
+import { promptFunc } from './utils/OpenAi.js';
 
 // test comment
 function App() {
   const [aiResponse, setApiResponse] = useState({});
+  const [error, setError] = useState(null);
 
   const userInput = async (event) => {
     event.preventDefault();
+    setError(null);
     const input = document.querySelector('#js-question-input').value.trim();
-    console.log(input);
-    const newData = await promptFunc(input);
-    setApiResponse(newData);
-    console.log('newData', newData);
+    try {
+      const newData = await promptFunc(input);
+      setApiResponse(newData);
+    } catch (err) {
+      setError('An error occurred while processing your request. Please try again.');
+      console.error('Error:', err);
+    }
   };
 
   return (
     <>
+    <header>
+      <img className='logo' src='OpenAiJS.png'/>
+      <h1>Welcome to your JavaScript Tutor!</h1>
+    </header>
       <main>
-        <h1>Welcome to your JavaScript Tutor!</h1>
         <section className='ask'>
           <form>
             <div>
@@ -35,9 +44,14 @@ function App() {
           </form>
         </section>
         {aiResponse?.code && aiResponse?.explanation && (
-          <section className='response'>
+          <section className='response animate__flipInX'>
             <div>{aiResponse?.code}</div>
             <div>{aiResponse?.explanation}</div>
+            {error && (
+              <div className='error-msg'>
+                <p>{error}</p>
+              </div>
+            )}
           </section>
         )}
       </main>
